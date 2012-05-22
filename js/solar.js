@@ -1,28 +1,49 @@
-function Solar(x, y) {
-  this.x = x;
-  this.y = y;
-  this.radius = 10;
-  this.color="FF0";
-  this.health = 100;
-  this.startHealth = 100;
-  this.recycle = 50;
-  this.range = 50;
-  this.energyProduced = 0.5;
-  this.storage = 25;
-  maxEnergy += this.storage;
-  this.tick = solarTick;
+// Constants
+Solar = {
+  START_HEALTH: 100,
+  RADIUS: 10,
+  COLOR: "FF0",
+  RECYCLE: 50,
+  RANGE: 50,
+  ENERGY_PRODUCED: 0.5,
+  STORAGE: 25,
+  COST: 200,
+  RADIUS: 10,
+  SELECTED_COLOR: "880"
 }
 
-var solarCost = 200;
-var solarRadius = 10;
-var solarSelectedColor = "880";
+// Constructor for each instance
+Solar.instance = function(x, y) {
+  this.type = Solar;
+  this.x = x;
+  this.y = y;
 
-function solarTick() {
-  var a = energy + this.energyProduced;
-  if (a > maxEnergy){
-    energy = maxEnergy;
+  this.health = Solar.START_HEALTH;
+  lex.maxEnergy += Solar.STORAGE;
+}
+
+// Methods for each instance
+Solar.instance.prototype.tick = function() {
+  var a = lex.energy + this.ENERGY_PRODUCED;
+  if (a > lex.maxEnergy) {
+    lex.energy = lex.maxEnergy;
   }
   else {
-    energy = a;
+    lex.energy = a;
   }
+};
+
+Solar.instance.prototype.drawOnContext = function(context, baseStation) {
+  context.beginPath();
+  context.moveTo(this.x, this.y);
+  context.lineTo(baseStation.x, baseStation.y);
+  context.strokeStyle = "#00F";
+  context.stroke();
+  context.beginPath();
+  context.fillStyle=this.type.COLOR;
+  context.arc(this.x,this.y,this.type.RADIUS,0,Math.PI*2,true);
+  context.strokeStyle = "#000";
+  context.stroke();
+  context.closePath();
+  context.fill();
 }
