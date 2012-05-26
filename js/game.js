@@ -1,73 +1,73 @@
 var lex = {
-  maxEnergy: 50
+  maxEnergy: 50,
+  energy: 50,
+  minerals: 400,
+  linkRange: 150,
+  baseStation: null,
+  buildings: new Array(),
+  rocks: new Array(),
+  context: myCanvas.getContext('2d')
 };
 
-var context;
 var mx;
 var my;
 var width = 500;
 var height = 500;
 var offset = $('canvas').offset();
-var energy = 50;
-var minerals = 400;
-var time = 0;
-var linkRange = 150;
-var action = true;
 
 var selectedStructureType;
 
-var baseStation;
-var buildings = new Array();
-var rocks = new Array();
-
 function init(){
-  context = myCanvas.getContext('2d');
   baseStation = new Solar.instance(250, 250);
-  buildings.push(baseStation);
-  for (i=0;i<=15;i++){
+  lex.buildings.push(baseStation);
+  for ( i = 0; i <= 15; i++){
     var x = 100 + Math.floor(Math.random()*301);
     var y = 100 + Math.floor(Math.random()*301);
     var randomMinerals = 20 + Math.floor(Math.random()*101);
 
-    rocks.push(new Rock.instance(x, y, randomMinerals));
+    lex.rocks.push(new Rock.instance(x, y, randomMinerals));
   }
   setSelectedStructure('Miner')
   setInterval(tick,1000/60);
 }
 function tick(){
   draw();
-  $('.energy').text(energy);
-  $('.minerals').text(minerals);
-  $.each(buildings, function(index, building) {
+  $('.energy').text(Math.round(lex.energy));
+  $('.minerals').text(Math.round(lex.minerals));
+  $.each(lex.buildings, function(index, building) {
      building.tick();
   });
 }
 function draw(){
-  context.fillStyle="555"
-  context.fillRect(0,0, width,height);
+  lex.context.fillStyle="555"
+  lex.context.fillRect(0,0, width,height);
 
-  $.each(buildings, function(){
+  $.each(lex.buildings, function(){
     var building = this;
-    building.drawOnContext(context, baseStation);
+    building.drawOnContext();
   });
   
-  $.each(rocks, function(){
+  $.each(lex.rocks, function(){
     rock = this;
-    rock.drawOnContext(context);
+    rock.drawOnContext();
   });
 
-  context.beginPath();
-  context.fillStyle=selectedStructureType.COLOR;
-  context.arc(mx,my,selectedStructureType.RADIUS,0,Math.PI*2,true);
-  context.closePath();
-  context.fill();
+  lex.context.beginPath();
+  lex.context.fillStyle=selectedStructureType.COLOR;
+  lex.context.arc(mx,my,selectedStructureType.RADIUS,0,Math.PI*2,true);
+  lex.context.closePath();
+  lex.context.fill();
 }
 function dist(x, y, X, Y){
   x_diff = Math.pow( (x-X), 2 );
   y_diff = Math.pow( (y-Y), 2 );
   dist1 = Math.sqrt( x_diff + y_diff );
-  if (dist1<0) {dist1 = -dist1;}
+  if (dist1 < 0) dist1 = -dist1;
   return dist1;
+}
+
+function distObj(a, b){
+  return dist(a.x, a.y, b.x, b.y);
 }
 
 $('#structureButtons').find('input').click(function(){
@@ -75,17 +75,20 @@ $('#structureButtons').find('input').click(function(){
 });
 
 function setSelectedStructure(name){
-  if (name == 'Miner'){
+  if (name == 'None')
+    selectedStructureType = null;
+  if (name == 'Miner')
     selectedStructureType = Miner;
-  } else if (name == 'Solar'){
+  if (name == 'Solar')
     selectedStructureType = Solar;
-  }
 }
 
 $(myCanvas).mousedown(function(e){
-  if (minerals >= selectedStructureType.COST){
-    minerals = minerals - selectedStructureType.COST;
-    buildings.push(new selectedStructureType.instance(e.pageX, e.pageY));
+  if (!selectedStructureType) return;
+  
+  if (lex.minerals >= selectedStructureType.COST){
+    lex.minerals = lex.minerals - selectedStructureType.COST;
+    lex.buildings.push(new selectedStructureType.instance(e.pageX, e.pageY));
   }
 });
 $(myCanvas).mousemove(function(e){

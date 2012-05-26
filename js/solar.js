@@ -17,6 +17,8 @@ Solar.instance = function(x, y) {
   this.type = Solar;
   this.x = x;
   this.y = y;
+  
+  this.active = true;
 
   this.health = Solar.START_HEALTH;
   lex.maxEnergy += Solar.STORAGE;
@@ -24,26 +26,29 @@ Solar.instance = function(x, y) {
 
 // Methods for each instance
 Solar.instance.prototype.tick = function() {
-  var a = lex.energy + this.ENERGY_PRODUCED;
-  if (a > lex.maxEnergy) {
-    lex.energy = lex.maxEnergy;
-  }
-  else {
-    lex.energy = a;
-  }
+  var newEnergy = lex.energy + Solar.ENERGY_PRODUCED;
+  lex.energy = Math.min(newEnergy, lex.maxEnergy);
 };
 
-Solar.instance.prototype.drawOnContext = function(context, baseStation) {
-  context.beginPath();
-  context.moveTo(this.x, this.y);
-  context.lineTo(baseStation.x, baseStation.y);
-  context.strokeStyle = "#00F";
-  context.stroke();
-  context.beginPath();
-  context.fillStyle=this.type.COLOR;
-  context.arc(this.x,this.y,this.type.RADIUS,0,Math.PI*2,true);
-  context.strokeStyle = "#000";
-  context.stroke();
-  context.closePath();
-  context.fill();
+Solar.instance.prototype.drawOnContext = function() {
+  if (this.energySource) {
+    lex.context.beginPath();
+    lex.context.moveTo(this.x, this.y);
+    lex.context.lineTo(this.energySource.x, this.energySource.y);
+    lex.context.strokeStyle = "#00F";
+    lex.context.stroke();
+  }
+  
+  lex.context.beginPath();
+  if (this.active) {
+    lex.context.fillStyle = this.type.COLOR;
+  } else {
+    lex.context.fillStyle = this.type.INACTIVE_COLOR;
+  }
+  
+  lex.context.arc(this.x, this.y, this.type.RADIUS, 0, Math.PI * 2, true);
+  lex.context.strokeStyle = "#000";
+  lex.context.stroke();
+  lex.context.closePath();
+  lex.context.fill();
 }
