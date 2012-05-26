@@ -51,12 +51,28 @@ function draw(){
     rock = this;
     rock.drawOnContext();
   });
-
-  lex.context.beginPath();
-  lex.context.fillStyle=selectedStructureType.COLOR;
-  lex.context.arc(mx,my,selectedStructureType.RADIUS,0,Math.PI*2,true);
-  lex.context.closePath();
-  lex.context.fill();
+  
+  // Move this somewhere
+  if (selectedStructureType) {
+    var temporaryStructure = new selectedStructureType.instance(mx, my);
+    
+    var nearestSolar = temporaryStructure.nearestSolar && temporaryStructure.nearestSolar();
+    if (nearestSolar) {
+      lex.context.beginPath();
+      lex.context.moveTo(temporaryStructure.x, temporaryStructure.y);
+      lex.context.lineTo(nearestSolar.x, nearestSolar.y);
+      lex.context.strokeStyle = "#00F";
+      lex.context.stroke();
+    }
+  
+    lex.context.beginPath();
+    lex.context.fillStyle=selectedStructureType.COLOR;
+    lex.context.arc(mx,my,selectedStructureType.RADIUS,0,Math.PI*2,true);
+    lex.context.closePath();
+    lex.context.fill();
+    
+    temporaryStructure = null; // Don't know if I need this, meh.
+  }
 }
 function dist(x, y, X, Y){
   x_diff = Math.pow( (x-X), 2 );
