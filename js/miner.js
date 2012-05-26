@@ -9,7 +9,7 @@ Miner = {
   START_HEALTH: 100,
   RECYCLE: 40,
   RANGE: 50,
-  ENERGY_USAGE: 0.5
+  ENERGY_USAGE: 0.05
 }
 
 // Constructor for each instance
@@ -21,13 +21,10 @@ Miner.instance = function(x, y) {
   this.health = Miner.START_HEALTH;
   this.charge = 0;
 
-  this.mining = false;
   this.target = null;
   this.active = null;
   
-  this.energySource = nearestSolar();
-  if (!this.energySource) debugger;
-/*   this.energySource = baseStation; */
+  this.energySource = this.nearestSolar();
 }
 
 // Methods for each instance
@@ -41,19 +38,20 @@ Miner.instance.prototype.tick = function() {
   }
   
   if (!this.target || this.target.exhausted) {
-    this.target = nearestRock();
+    this.target = this.nearestRock();
   }
 };
 
-function nearestSolar() {
+Miner.instance.prototype.nearestSolar = function() {
   var closestSolar = lex.baseStation;
   var smallestDist = Infinity;
   
+  var that = this;
   $.each(lex.buildings, function(){
     var building = this;
     if (building.type != Solar) return true;
     
-    var dist = distObj(this, building);
+    var dist = distObj(that, building);
     if (dist < smallestDist) {
       closestSolar = building;
       smallestDist = dist;
@@ -63,16 +61,17 @@ function nearestSolar() {
   return closestSolar;
 }
 
-function nearestRock() {
+Miner.instance.prototype.nearestRock = function() {
   var closestRock;
   var smallestDist = Infinity;
   
+  var that = this;
   $.each(lex.rocks, function(){
     var rock = this;
     
-    var dist = distObj(this, rock);
+    var dist = distObj(that, rock);
     if (dist < smallestDist) {
-      closestSolar = rock;
+      closestRock = rock;
       smallestDist = dist;
     }
   });
