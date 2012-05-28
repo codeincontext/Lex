@@ -1,11 +1,11 @@
 // Constants
 Miner = {
   RADIUS: 8,
-  COLOR: "F00",
+  COLOR: "rgba(230,0,0,1)",
   COST: 80,
   RADIUS: 8,
-  SELECTED_COLOR: "800",
-  INACTIVE_COLOR: "999",
+/*   SELECTED_COLOR: "800", */
+  INACTIVE_COLOR: "rgba(230,0,0,0.5)",
   START_HEALTH: 100,
   RECYCLE: 40,
   RANGE: 50,
@@ -29,16 +29,17 @@ Miner.instance = function(x, y) {
 
 // Methods for each instance
 Miner.instance.prototype.tick = function() {
-  if (lex.energy >= Miner.ENERGY_USAGE) {
+  if (!this.target || this.target.exhausted) {
+    this.target = this.nearestRock();
+  }
+
+  if (this.target && lex.energy >= Miner.ENERGY_USAGE) {
     lex.minerals += 0.01;
+    this.target.minerals -= 0.01;
     lex.energy -= Miner.ENERGY_USAGE;
     this.active = true;
   } else {
     this.active = false;
-  }
-  
-  if (!this.target || this.target.exhausted) {
-    this.target = this.nearestRock();
   }
 };
 
@@ -47,8 +48,7 @@ Miner.instance.prototype.nearestSolar = function() {
   var smallestDist = Infinity;
   
   var that = this;
-  $.each(lex.buildings, function(){
-    var building = this;
+  $.each(lex.buildings, function(_, building){
     if (building.type != Solar) return true;
     
     var dist = distObj(that, building);
@@ -66,10 +66,10 @@ Miner.instance.prototype.nearestRock = function() {
   var smallestDist = Infinity;
   
   var that = this;
-  $.each(lex.rocks, function(){
-    var rock = this;
-    
+  $.each(lex.rocks, function(_, rock){
+    if (rock.exhausted()) return true;
     var dist = distObj(that, rock);
+
     if (dist < smallestDist) {
       closestRock = rock;
       smallestDist = dist;

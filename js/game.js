@@ -23,7 +23,7 @@ function init(){
   for ( i = 0; i <= 15; i++){
     var x = 100 + Math.floor(Math.random()*301);
     var y = 100 + Math.floor(Math.random()*301);
-    var randomMinerals = 20 + Math.floor(Math.random()*101);
+    var randomMinerals = 20 + Math.floor(Math.random()*301);
 
     lex.rocks.push(new Rock.instance(x, y, randomMinerals));
   }
@@ -39,18 +39,8 @@ function tick(){
   });
 }
 function draw(){
-  lex.context.fillStyle="555"
+  lex.context.fillStyle="555";
   lex.context.fillRect(0,0, width,height);
-
-  $.each(lex.buildings, function(){
-    var building = this;
-    building.drawOnContext();
-  });
-  
-  $.each(lex.rocks, function(){
-    rock = this;
-    rock.drawOnContext();
-  });
   
   // Move this somewhere
   if (selectedStructureType) {
@@ -61,18 +51,32 @@ function draw(){
       lex.context.beginPath();
       lex.context.moveTo(temporaryStructure.x, temporaryStructure.y);
       lex.context.lineTo(nearestSolar.x, nearestSolar.y);
-      lex.context.strokeStyle = "#00F";
+      lex.context.strokeStyle = "rgba(0,0,230,0.5)";
       lex.context.stroke();
     }
   
     lex.context.beginPath();
-    lex.context.fillStyle=selectedStructureType.COLOR;
+    lex.context.fillStyle=selectedStructureType.INACTIVE_COLOR;
     lex.context.arc(mx,my,selectedStructureType.RADIUS,0,Math.PI*2,true);
     lex.context.closePath();
     lex.context.fill();
     
     temporaryStructure = null; // Don't know if I need this, meh.
   }
+
+  $.each(lex.buildings, function(_, building){
+    if (building.type == Solar) return true;
+    building.drawOnContext();
+  });
+  
+  $.each(lex.buildings, function(_, building){
+  if (building.type != Solar) return true;
+    building.drawOnContext();
+  });
+  
+  $.each(lex.rocks, function(_, rock){
+    rock.drawOnContext();
+  });
 }
 function dist(x, y, X, Y){
   x_diff = Math.pow( (x-X), 2 );

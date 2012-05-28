@@ -2,14 +2,15 @@
 Solar = {
   START_HEALTH: 100,
   RADIUS: 10,
-  COLOR: "FF0",
+  COLOR: "rgba(230,230,0,1)",
   RECYCLE: 50,
   RANGE: 50,
-  ENERGY_PRODUCED: 0.5,
+  ENERGY_PRODUCED: 0.3,
   STORAGE: 25,
   COST: 200,
   RADIUS: 10,
-  SELECTED_COLOR: "880"
+/*   SELECTED_COLOR: "880", */
+  INACTIVE_COLOR: "rgba(230,230,0,0.5)"
 }
 
 // Constructor for each instance
@@ -35,7 +36,14 @@ Solar.instance.prototype.drawOnContext = function() {
     lex.context.beginPath();
     lex.context.moveTo(this.x, this.y);
     lex.context.lineTo(this.energySource.x, this.energySource.y);
-    lex.context.strokeStyle = "#00F";
+    lex.context.strokeStyle = "rgba(0,0,230,1)";
+    lex.context.stroke();
+  }
+  if (this.target && this.active) {
+    lex.context.beginPath();
+    lex.context.moveTo(this.x, this.y);
+    lex.context.lineTo(this.target.x, this.target.y);
+    lex.context.strokeStyle = "#AFA";
     lex.context.stroke();
   }
   
