@@ -33,7 +33,7 @@ Miner.instance.prototype.tick = function() {
     this.target = this.nearestRock();
   }
 
-  if (this.target && lex.energy >= Miner.ENERGY_USAGE) {
+  if (this.target && this.energySource && lex.energy >= Miner.ENERGY_USAGE) {
     lex.minerals += 0.01;
     this.target.minerals -= 0.01;
     lex.energy -= Miner.ENERGY_USAGE;
@@ -45,7 +45,7 @@ Miner.instance.prototype.tick = function() {
 
 Miner.instance.prototype.nearestSolar = function() {
   var closestSolar = lex.baseStation;
-  var smallestDist = Infinity;
+  var smallestDist = Solar.RANGE;
   
   var that = this;
   $.each(lex.buildings, function(_, building){
@@ -63,7 +63,7 @@ Miner.instance.prototype.nearestSolar = function() {
 
 Miner.instance.prototype.nearestRock = function() {
   var closestRock;
-  var smallestDist = Infinity;
+  var smallestDist = Miner.RANGE;
   
   var that = this;
   $.each(lex.rocks, function(_, rock){

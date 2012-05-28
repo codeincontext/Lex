@@ -4,7 +4,7 @@ Solar = {
   RADIUS: 10,
   COLOR: "rgba(230,230,0,1)",
   RECYCLE: 50,
-  RANGE: 50,
+  RANGE: 100,
   ENERGY_PRODUCED: 0.3,
   STORAGE: 25,
   COST: 200,
