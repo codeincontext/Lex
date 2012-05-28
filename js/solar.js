@@ -20,6 +20,7 @@ Solar.instance = function(x, y) {
   this.y = y;
   
   this.active = true;
+  this.pulseStateOffset = Math.random() * 100;
 
   this.health = Solar.START_HEALTH;
   lex.maxEnergy += Solar.STORAGE;
@@ -33,18 +34,22 @@ Solar.instance.prototype.tick = function() {
 
 Solar.instance.prototype.drawOnContext = function() {
   if (this.energySource) {
+    lex.context.lineWidth = 2;
     lex.context.beginPath();
     lex.context.moveTo(this.x, this.y);
     lex.context.lineTo(this.energySource.x, this.energySource.y);
-    lex.context.strokeStyle = "rgba(0,0,230,1)";
+    lex.context.strokeStyle = "rgba(75,75,255," + this.linkAlpha(75) + ")";
     lex.context.stroke();
+    lex.context.lineWidth = 1;
   }
   if (this.target && this.active) {
+    lex.context.lineWidth = 2;
     lex.context.beginPath();
     lex.context.moveTo(this.x, this.y);
     lex.context.lineTo(this.target.x, this.target.y);
-    lex.context.strokeStyle = "#AFA";
+    lex.context.strokeStyle = "rgba(255,255,255," + this.linkAlpha(100) + ")";
     lex.context.stroke();
+    lex.context.lineWidth = 1;
   }
   
   lex.context.beginPath();
@@ -59,4 +64,16 @@ Solar.instance.prototype.drawOnContext = function() {
   lex.context.stroke();
   lex.context.closePath();
   lex.context.fill();
+}
+
+Solar.instance.prototype.linkAlpha = function(speed) {
+  var pulseState = (lex.pulseState + this.pulseStateOffset) % speed;
+  
+  var alpha = (pulseState / speed);
+  if (alpha > 0.5) {
+    alpha = 1-alpha;
+  }
+  
+  var normalisedAlpha = (0.75 + alpha) / 1.75;
+  return normalisedAlpha;
 }

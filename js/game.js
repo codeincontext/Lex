@@ -6,7 +6,8 @@ var lex = {
   baseStation: null,
   buildings: new Array(),
   rocks: new Array(),
-  context: myCanvas.getContext('2d')
+  context: myCanvas.getContext('2d'),
+  pulseState: 0
 };
 
 var mx;
@@ -37,9 +38,10 @@ function tick(){
   $.each(lex.buildings, function(index, building) {
      building.tick();
   });
+  lex.pulseState++;
 }
 function draw(){
-  lex.context.fillStyle="555";
+  lex.context.fillStyle="333";
   lex.context.fillRect(0,0, width,height);
   
   // Move this somewhere

@@ -23,6 +23,8 @@ Miner.instance = function(x, y) {
 
   this.target = null;
   this.active = null;
+  this.pulseStateOffset = Math.random() * 100;
+
   
   this.energySource = this.nearestSolar();
 }
@@ -80,3 +82,4 @@ Miner.instance.prototype.nearestRock = function() {
 }
 
 Miner.instance.prototype.drawOnContext = Solar.instance.prototype.drawOnContext
+Miner.instance.prototype.linkAlpha = Solar.instance.prototype.linkAlpha
