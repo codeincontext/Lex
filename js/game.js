@@ -7,7 +7,8 @@ var lex = {
   buildings: new Array(),
   rocks: new Array(),
   context: myCanvas.getContext('2d'),
-  pulseState: 0
+  pulseState: 0,
+  selectedBuilding: null
 };
 
 var mx;
@@ -72,7 +73,7 @@ function draw(){
   });
   
   $.each(lex.buildings, function(_, building){
-  if (building.type != Solar) return true;
+    if (building.type != Solar) return true;
     building.drawOnContext();
   });
   
@@ -106,11 +107,20 @@ function setSelectedStructure(name){
 }
 
 $(myCanvas).mousedown(function(e){
-  if (!selectedStructureType) return;
-  
-  if (lex.minerals >= selectedStructureType.COST){
-    lex.minerals = lex.minerals - selectedStructureType.COST;
-    lex.buildings.push(new selectedStructureType.instance(e.pageX, e.pageY));
+  console.log('there was a click')
+  if (selectedStructureType) {
+    if (lex.minerals >= selectedStructureType.COST) {
+      lex.minerals = lex.minerals - selectedStructureType.COST;
+      lex.buildings.push(new selectedStructureType.instance(e.pageX, e.pageY));
+    }
+    selectedStructureType = null;
+  } else {
+    $.each(lex.buildings, function(_, building) {
+      var distance = distObj({x: mx, y: my}, building);
+      console.log(distance);
+      if (distance <= building.type.RADIUS)
+        lex.selectedBuilding = building;
+    });
   }
 });
 $(myCanvas).mousemove(function(e){

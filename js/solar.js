@@ -33,6 +33,7 @@ Solar.instance.prototype.tick = function() {
 };
 
 Solar.instance.prototype.drawOnContext = function() {
+// Link with energy source  
   if (this.energySource) {
     lex.context.lineWidth = 2;
     lex.context.beginPath();
@@ -42,6 +43,8 @@ Solar.instance.prototype.drawOnContext = function() {
     lex.context.stroke();
     lex.context.lineWidth = 1;
   }
+  
+// Link with target
   if (this.target && this.active) {
     lex.context.lineWidth = 2;
     lex.context.beginPath();
@@ -52,18 +55,28 @@ Solar.instance.prototype.drawOnContext = function() {
     lex.context.lineWidth = 1;
   }
   
-  lex.context.beginPath();
-  if (this.active) {
-    lex.context.fillStyle = this.type.COLOR;
-  } else {
-    lex.context.fillStyle = this.type.INACTIVE_COLOR;
-  }
-  
+// Building itself
+  lex.context.beginPath();  
   lex.context.arc(this.x, this.y, this.type.RADIUS, 0, Math.PI * 2, true);
-  lex.context.strokeStyle = "#000";
+  
+// Border
+  if (lex.selectedBuilding == this) {
+    lex.context.strokeStyle = "#FFF";
+    lex.context.lineWidth = 2;
+  } else {
+    lex.context.strokeStyle = "#000";
+  }
   lex.context.stroke();
   lex.context.closePath();
+  
+// Fill
+  if (this.active)
+    lex.context.fillStyle = this.type.COLOR;
+  else
+    lex.context.fillStyle = this.type.INACTIVE_COLOR;
+
   lex.context.fill();
+  lex.context.lineWidth = 1;
 }
 
 Solar.instance.prototype.linkAlpha = function(speed) {
