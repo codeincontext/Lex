@@ -1,3 +1,11 @@
+/*
+TODO:
+Show details of current structure
+Show details of selected structure
+Allow recycling of structures
+Enemies
+*/
+
 var lex = {
   maxEnergy: 50,
   energy: 50,
@@ -29,7 +37,6 @@ function init(){
 
     lex.rocks.push(new Rock.instance(x, y, randomMinerals));
   }
-  setSelectedStructure('Miner')
   setInterval(tick,1000/60);
 }
 function tick(){

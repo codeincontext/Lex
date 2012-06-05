@@ -89,6 +89,6 @@ Solar.instance.prototype.linkAlpha = function(speed) {
     alpha = 1-alpha;
   }
   
-  var normalisedAlpha = (0.75 + alpha) / 1.75;
+  var normalisedAlpha = (1 + alpha) / 2;
   return normalisedAlpha;
 }

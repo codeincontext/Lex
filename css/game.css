@@ -4,3 +4,9 @@
 body {
   background-color: #DDD;
 }
+#resources, #structureButtons {
+  display: inline-block;
+}
+#structureButtons {
+  
+}
