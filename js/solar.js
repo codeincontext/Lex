@@ -93,3 +93,11 @@ Solar.instance.prototype.linkAlpha = function(speed) {
   var normalisedAlpha = (1 + alpha) / 2;
   return normalisedAlpha;
 }
+
+Solar.instance.prototype.takeHit = function(damage) {
+  this.health -= damage;
+  if (this.health <= 0) {
+    var id = lex.buildings.indexOf(this);
+    lex.buildings.splice(id, 1);
+  }
+}

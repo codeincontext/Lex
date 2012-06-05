@@ -6,7 +6,7 @@ Miner = {
   RADIUS: 8,
 /*   SELECTED_COLOR: "800", */
   INACTIVE_COLOR: "rgba(230,0,0,0.5)",
-  START_HEALTH: 100,
+  START_HEALTH: 50,
   RECYCLE: 40,
   RANGE: 50,
   ENERGY_USAGE: 0.05,
@@ -84,3 +84,4 @@ Miner.instance.prototype.nearestRock = function() {
 
 Miner.instance.prototype.drawOnContext = Solar.instance.prototype.drawOnContext
 Miner.instance.prototype.linkAlpha = Solar.instance.prototype.linkAlpha
+Miner.instance.prototype.takeHit = Solar.instance.prototype.takeHit

@@ -12,8 +12,9 @@ var lex = {
   minerals: 400,
   linkRange: 150,
   baseStation: null,
-  buildings: new Array(),
-  rocks: new Array(),
+  buildings: [],
+  rocks: [],
+  enemies: [],
   context: myCanvas.getContext('2d'),
   pulseState: 0,
   selectedBuilding: null
@@ -45,6 +46,9 @@ function tick(){
   $('.minerals').text(Math.round(lex.minerals));
   $.each(lex.buildings, function(index, building) {
      building.tick();
+  });
+  $.each(lex.enemies, function(_, enemy){
+    enemy.tick();
   });
   lex.pulseState++;
 }
@@ -86,6 +90,10 @@ function draw(){
   
   $.each(lex.rocks, function(_, rock){
     rock.drawOnContext();
+  });
+  
+  $.each(lex.enemies, function(_, enemy){
+    enemy.drawOnContext();
   });
   
   var structureType = selectedStructureType || (lex.selectedBuilding && lex.selectedBuilding.type)
