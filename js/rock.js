@@ -1,6 +1,7 @@
 Rock = {
   COLOR: "rgba(0,230,0,1)",
-  INACTIVE_COLOR: "rgba(0,230,0,0.5)"
+  INACTIVE_COLOR: "rgba(0,230,0,0.5)",
+  DESCRIPTION: "Rocks contain minerals that can be mined by Miner structures. Rocks only contain a limited supply of minerals."
 }
 
 // Constructor for each instance

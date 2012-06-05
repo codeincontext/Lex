@@ -80,6 +80,13 @@ function draw(){
   $.each(lex.rocks, function(_, rock){
     rock.drawOnContext();
   });
+  
+  var structureType = selectedStructureType || (lex.selectedBuilding && lex.selectedBuilding.type)
+  if (structureType) {
+    $('#structureDetails').text(structureType.DESCRIPTION);
+  } else {
+    $('#structureDetails').text('');
+  }
 }
 function dist(x, y, X, Y){
   x_diff = Math.pow( (x-X), 2 );

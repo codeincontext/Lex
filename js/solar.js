@@ -10,8 +10,9 @@ Solar = {
   COST: 200,
   RADIUS: 10,
 /*   SELECTED_COLOR: "880", */
-  INACTIVE_COLOR: "rgba(230,230,0,0.5)"
+  INACTIVE_COLOR: "rgba(230,230,0,0.5)",
   IS_ENERGY_SOURCE: true,
+  DESCRIPTION: "Solar stations generate and distribute energy. Energy is required for other structures to operate. The more structures you have, the more energy you need to generate."
 }
 
 // Constructor for each instance

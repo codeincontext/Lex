@@ -9,7 +9,8 @@ Miner = {
   START_HEALTH: 100,
   RECYCLE: 40,
   RANGE: 50,
-  ENERGY_USAGE: 0.05
+  ENERGY_USAGE: 0.05,
+  DESCRIPTION: "Miners extract minerals from rocks. A miner will only operate if it has a source of energy (is connected to a sloar station) and is in range of a rock"
 }
 
 // Constructor for each instance
