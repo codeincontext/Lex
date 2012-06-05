@@ -49,11 +49,11 @@ function draw(){
   if (selectedStructureType) {
     var temporaryStructure = new selectedStructureType.instance(mx, my);
     
-    var nearestSolar = temporaryStructure.nearestSolar && temporaryStructure.nearestSolar();
-    if (nearestSolar) {
+    var nearestEnergySource = temporaryStructure.nearestEnergySource && temporaryStructure.nearestEnergySource();
+    if (nearestEnergySource) {
       lex.context.beginPath();
       lex.context.moveTo(temporaryStructure.x, temporaryStructure.y);
-      lex.context.lineTo(nearestSolar.x, nearestSolar.y);
+      lex.context.lineTo(nearestEnergySource.x, nearestEnergySource.y);
       lex.context.strokeStyle = "rgba(0,0,230,0.5)";
       lex.context.stroke();
     }

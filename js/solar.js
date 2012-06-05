@@ -11,6 +11,7 @@ Solar = {
   RADIUS: 10,
 /*   SELECTED_COLOR: "880", */
   INACTIVE_COLOR: "rgba(230,230,0,0.5)"
+  IS_ENERGY_SOURCE: true,
 }
 
 // Constructor for each instance

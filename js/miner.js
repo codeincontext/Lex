@@ -26,7 +26,7 @@ Miner.instance = function(x, y) {
   this.pulseStateOffset = Math.random() * 100;
 
   
-  this.energySource = this.nearestSolar();
+  this.energySource = this.nearestEnergySource();
 }
 
 // Methods for each instance
@@ -45,22 +45,22 @@ Miner.instance.prototype.tick = function() {
   }
 };
 
-Miner.instance.prototype.nearestSolar = function() {
-  var closestSolar = lex.baseStation;
+Miner.instance.prototype.nearestEnergySource = function() {
+  var closestSource = lex.baseStation;
   var smallestDist = Solar.RANGE;
   
   var that = this;
   $.each(lex.buildings, function(_, building){
-    if (building.type != Solar) return true;
+    if (!building.type.IS_ENERGY_SOURCE) return true;
     
     var dist = distObj(that, building);
     if (dist < smallestDist) {
-      closestSolar = building;
+      closestSource = building;
       smallestDist = dist;
     }
   });
   
-  return closestSolar;
+  return closestSource;
 }
 
 Miner.instance.prototype.nearestRock = function() {
