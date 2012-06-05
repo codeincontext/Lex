@@ -107,7 +107,6 @@ function setSelectedStructure(name){
 }
 
 $(myCanvas).mousedown(function(e){
-  console.log('there was a click')
   if (selectedStructureType) {
     if (lex.minerals >= selectedStructureType.COST) {
       lex.minerals = lex.minerals - selectedStructureType.COST;
@@ -115,12 +114,15 @@ $(myCanvas).mousedown(function(e){
     }
     selectedStructureType = null;
   } else {
-    $.each(lex.buildings, function(_, building) {
-      var distance = distObj({x: mx, y: my}, building);
-      console.log(distance);
-      if (distance <= building.type.RADIUS)
-        lex.selectedBuilding = building;
-    });
+    lex.selectedBuilding = null;
+    function checkClickRadius(_, structure) {
+      var distance = distObj({x: mx, y: my}, structure);
+      var structureRadius = structure.radius || structure.type.RADIUS;
+      if (distance <= structureRadius)
+        lex.selectedBuilding = structure;
+    }
+    $.each(lex.buildings, checkClickRadius);
+    $.each(lex.rocks, checkClickRadius);
   }
 });
 $(myCanvas).mousemove(function(e){

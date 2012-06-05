@@ -14,14 +14,26 @@ Rock.instance = function(x, y, minerals) {
 
 Rock.instance.prototype.drawOnContext = function() {
   lex.context.beginPath();
+  lex.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+  
+// Border
+  if (lex.selectedBuilding == this) {
+    lex.context.strokeStyle = "#FFF";
+    lex.context.lineWidth = 2;
+    lex.context.stroke();
+    lex.context.closePath();
+    lex.context.lineWidth = 1;
+  }
+    
   if (this.exhausted()) {
     lex.context.fillStyle = Rock.INACTIVE_COLOR;
   } else {
     lex.context.fillStyle = Rock.COLOR;
   }
-  lex.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+
   lex.context.closePath();
   lex.context.fill();
+
 }
 
 Rock.instance.prototype.exhausted = function() {
