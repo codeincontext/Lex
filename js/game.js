@@ -38,6 +38,7 @@ function init(){
 
     lex.rocks.push(new Rock.instance(x, y, randomMinerals));
   }
+  loadWaves();
   setInterval(tick,1000/60);
 }
 function tick(){
@@ -153,3 +154,17 @@ $(myCanvas).mousemove(function(e){
 });
 
 // window.onload += init();
+
+function loadWaves() {
+  $.each(waves, loadWave);
+}
+
+function loadWave(_, wave) {
+// Load in the enemies at the wave's start time  
+  setTimeout(function() {  
+    $.each(wave.enemies, function(_, enemyData) {
+      var newEnemy = new Enemy.instance(enemyData.x, enemyData.y);
+      lex.enemies.push(newEnemy);
+    });
+  }, wave.startTime*1000);
+}
