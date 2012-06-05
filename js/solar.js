@@ -16,7 +16,7 @@ Solar = {
 }
 
 // Constructor for each instance
-Solar.instance = function(x, y) {
+Solar.instance = function(x, y, temporary) {
   this.type = Solar;
   this.x = x;
   this.y = y;
@@ -25,7 +25,8 @@ Solar.instance = function(x, y) {
   this.pulseStateOffset = Math.random() * 100;
 
   this.health = Solar.START_HEALTH;
-  lex.maxEnergy += Solar.STORAGE;
+  
+  if (!temporary) lex.maxEnergy += Solar.STORAGE;
 }
 
 // Methods for each instance

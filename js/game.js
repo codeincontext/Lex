@@ -54,7 +54,7 @@ function draw(){
   
   // Move this somewhere
   if (selectedStructureType) {
-    var temporaryStructure = new selectedStructureType.instance(mx, my);
+    var temporaryStructure = new selectedStructureType.instance(mx, my, true);
     
     var nearestEnergySource = temporaryStructure.nearestEnergySource && temporaryStructure.nearestEnergySource();
     if (nearestEnergySource) {

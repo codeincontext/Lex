@@ -14,7 +14,7 @@ Miner = {
 }
 
 // Constructor for each instance
-Miner.instance = function(x, y) {
+Miner.instance = function(x, y, temporary) {
   this.type = Miner;
   this.x = x;
   this.y = y;
