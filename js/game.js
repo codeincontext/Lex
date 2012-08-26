@@ -1,10 +1,12 @@
 /*
 TODO:
 Show details of current structure
-Show details of selected structure
 Allow recycling of structures
 Enemies
+Bug with unlimited energy
+Improve temporary structure stuff
 */
+
 
 var lex = {
   maxEnergy: 50,

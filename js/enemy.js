@@ -51,6 +51,17 @@ Enemy.instance.prototype.drawOnContext = function() {
 
   lex.context.closePath();
   lex.context.fill();
+  
+  // Link with target
+  if (this.target && this.targetInRange()) {
+    lex.context.lineWidth = 2;
+    lex.context.beginPath();
+    lex.context.moveTo(this.x, this.y);
+    lex.context.lineTo(this.target.x, this.target.y);
+    lex.context.strokeStyle = "rgba(255,255,255," + Solar.instance.prototype.linkAlpha(100) + ")";
+    lex.context.stroke();
+    lex.context.lineWidth = 1;
+  }
 }
 
 Enemy.instance.prototype.nearestStructure = function() {
